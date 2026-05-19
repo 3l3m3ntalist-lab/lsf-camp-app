@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f0f1a">
+<title>LSF Camp Tutor Pack 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --surface: #1a1a2e;
+    --surface2: #16213e;
+    --accent: #e94560;
+    --accent2: #f5a623;
+    --accent3: #0abde3;
+    --accent4: #10ac84;
+    --text: #eaeaea;
+    --text-muted: #8a8a9a;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; overflow-x:hidden; }
+
+  /* SPLASH */
+  #splash {
+    position:fixed; inset:0; z-index:999;
+    background:var(--bg);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
+    transition:opacity 0.5s ease;
+  }
+  #splash .logo {
+    font-family:'Bangers',cursive; font-size:72px; letter-spacing:4px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    animation:pulse 1.5s ease infinite;
+  }
+  #splash p { color:var(--text-muted); font-size:14px; font-weight:600; }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+  /* HEADER */
+  #header {
+    position:sticky; top:0; z-index:100;
+    background:rgba(15,15,26,0.95); backdrop-filter:blur(12px);
+    border-bottom:2px solid var(--accent);
+    padding:12px 16px; display:flex; align-items:center; gap:12px;
+  }
+  #back-btn {
+    display:none; background:none; border:none;
+    color:var(--accent); font-size:24px; cursor:pointer; padding:4px 8px;
+  }
+  #header-title {
+    font-family:'Bangers',cursive; font-size:22px; letter-spacing:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; flex:1;
+  }
+  #header-sub { font-size:11px; color:var(--text-muted); font-weight:700; text-transform:uppercase; letter-spacing:1px; }
+
+  /* VIEWS */
+  .view { display:none; padding-bottom:100px; }
+  .view.active { display:block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .animate-in { animation:fadeUp 0.25s ease forwards; }
+
+  /* HOME HERO */
+  #home-hero {
+    background:linear-gradient(160deg,var(--surface) 0%,var(--surface2) 100%);
+    padding:28px 20px 24px; text-align:center; position:relative; overflow:hidden;
+  }
+  #home-hero::before { content:'🚀'; position:absolute; top:-10px; right:-10px; font-size:130px; opacity:0.05; transform:rotate(15deg); pointer-events:none; }
+  #home-hero h1 {
+    font-family:'Bangers',cursive; font-size:38px; letter-spacing:3px; line-height:1.1;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  #home-hero p { color:var(--text-muted); font-size:13px; margin-top:6px; font-weight:700; }
+  .badge { display:inline-block; background:var(--accent); color:#fff; font-size:11px; font-weight:800; padding:3px 12px; border-radius:20px; margin-top:10px; text-transform:uppercase; letter-spacing:1px; }
+
+  /* MENU GRID */
+  .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:16px; }
+  .menu-card {
+    background:var(--surface); border-radius:var(--radius); padding:20px 14px;
+    cursor:pointer; border:2px solid transparent; transition:transform 0.15s;
+    position:relative; overflow:hidden; text-align:center;
+  }
+  .menu-card:active { transform:scale(0.96); }
+  .menu-card.full { grid-column:1/-1; }
+  .menu-card .card-icon { font-size:36px; display:block; margin-bottom:8px; }
+  .menu-card .card-title { font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.5px; }
+  .menu-card .card-sub { font-size:11px; color:var(--text-muted); margin-top:4px; font-weight:600; }
+  .menu-card[data-color="red"]   { border-color:var(--accent);  } .menu-card[data-color="red"]::before   { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent); }
+  .menu-card[data-color="orange"]{ border-color:var(--accent2); } .menu-card[data-color="orange"]::before{ content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent2); }
+  .menu-card[data-color="blue"]  { border-color:var(--accent3); } .menu-card[data-color="blue"]::before  { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent3); }
+  .menu-card[data-color="green"] { border-color:var(--accent4); } .menu-card[data-color="green"]::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:var(--accent4); }
+
+  /* SECTION HEADER */
+  .section-header { padding:20px 16px 12px; border-bottom:1px solid rgba(255,255,255,0.06); }
+  .section-header h2 { font-family:'Bangers',cursive; font-size:28px; letter-spacing:2px; }
+  .section-header p { color:var(--text-muted); font-size:13px; margin-top:4px; font-weight:600; }
+
+  /* CONTENT CARDS */
+  .content-list { padding:12px 16px; display:flex; flex-direction:column; gap:10px; }
+  .content-card {
+    background:var(--surface); border-radius:var(--radius-sm); padding:14px 16px;
+    cursor:pointer; border-left:3px solid var(--accent3); transition:transform 0.15s;
+  }
+  .content-card:active { transform:scale(0.98); }
+  .content-card h3 { font-size:15px; font-weight:800; }
+  .content-card p { font-size:12px; color:var(--text-muted); margin-top:4px; font-weight:600; }
+  .content-card .arrow { float:right; color:var(--accent3); font-size:18px; margin-top:-2px; }
+
+  /* DETAIL BODY */
+  .detail-body { padding:16px; }
+  .detail-body h2 { font-family:'Bangers',cursive; font-size:26px; letter-spacing:2px; color:var(--accent2); margin-bottom:12px; }
+  .detail-body p { font-size:14px; line-height:1.7; color:#ccc; margin-bottom:12px; }
+  .detail-body ul { padding-left:18px; margin-bottom:12px; }
+  .detail-body li { font-size:14px; line-height:1.8; color:#ccc; }
+  .detail-body h3 { font-size:15px; font-weight:900; color:var(--accent3); margin:16px 0 8px; text-transform:uppercase; letter-spacing:1px; }
+  .tip-box { background:rgba(10,189,227,0.08); border-left:3px solid var(--accent3); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 14px; margin:12px 0; font-size:13px; color:var(--accent3); font-weight:700; }
+  .warn-box { background:rgba(233,69,96,0.08); border-left:3px solid var(--accent); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 14px; margin:12px 0; font-size:13px; color:var(--accent); font-weight:700; }
+
+  /* LEVEL BADGES */
+  .level-row { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .level-badge { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; }
+  .level-badge.white  { background:#fff; color:#111; }
+  .level-badge.yellow { background:#f5c518; color:#111; }
+  .level-badge.green  { background:#10ac84; color:#fff; }
+  .level-badge.red    { background:var(--accent); color:#fff; }
+  .level-badge.blue   { background:var(--accent3); color:#fff; }
+
+  /* SONGS */
+  .song-card { background:var(--surface); border-radius:var(--radius); padding:14px 16px; margin-bottom:10px; border:1px solid rgba(255,255,255,0.06); }
+  .song-card .song-title { font-weight:900; font-size:15px; }
+  .song-card .song-level { font-size:11px; color:var(--text-muted); margin:4px 0 10px; font-weight:700; }
+  .lyrics-toggle { background:none; border:1px solid var(--accent3); color:var(--accent3); padding:6px 14px; border-radius:20px; font-size:12px; font-weight:700; cursor:pointer; margin-right:8px; font-family:'Nunito',sans-serif; }
+  .audio-player { margin-top:12px; background:rgba(10,189,227,0.06); border-radius:var(--radius-sm); padding:12px; }
+  .audio-row { display:flex; align-items:center; gap:10px; }
+  .play-btn { width:42px; height:42px; background:var(--accent3); border:none; border-radius:50%; font-size:16px; cursor:pointer; flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:transform 0.15s; }
+  .play-btn:active { transform:scale(0.9); }
+  .audio-info { flex:1; }
+  .audio-info .audio-name { font-size:12px; font-weight:700; color:var(--accent3); }
+  .audio-info .audio-hint { font-size:11px; color:var(--text-muted); margin-top:2px; }
+  .progress-bar { height:4px; background:rgba(255,255,255,0.1); border-radius:2px; margin-top:8px; overflow:hidden; }
+  .progress-fill { height:100%; background:var(--accent3); width:0%; border-radius:2px; transition:width 0.1s linear; }
+  .lyrics-block { display:none; margin-top:12px; background:rgba(255,255,255,0.03); border-radius:var(--radius-sm); padding:12px; font-size:13px; line-height:1.8; color:#bbb; white-space:pre-line; max-height:280px; overflow-y:auto; border:1px solid rgba(255,255,255,0.06); }
+  .lyrics-block.open { display:block; }
+
+  /* TIMETABLE */
+  .tt-day { background:var(--surface); border-radius:var(--radius-sm); margin-bottom:10px; overflow:hidden; }
+  .tt-day-header { background:linear-gradient(90deg,var(--accent),#c0392b); padding:10px 14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+  .tt-day-header .tt-name { font-weight:900; font-size:14px; }
+  .tt-day-header .tt-theme { font-size:11px; opacity:0.85; font-style:italic; }
+  .tt-slots { display:none; }
+  .tt-slots.open { display:block; }
+  .tt-slot { padding:9px 14px; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; gap:10px; align-items:flex-start; }
+  .tt-time { font-size:11px; color:var(--accent2); font-weight:800; min-width:46px; margin-top:2px; }
+  .tt-activity { font-size:13px; color:var(--text); font-weight:600; }
+  .tt-slot.hi { background:rgba(233,69,96,0.08); }
+  .tt-slot.hi .tt-activity { color:var(--accent); font-weight:800; }
+
+  /* CONTACTS */
+  .contact-card { background:var(--surface); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:10px; display:flex; align-items:center; gap:14px; }
+  .contact-avatar { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .contact-name { font-weight:900; font-size:15px; }
+  .contact-role { font-size:12px; color:var(--text-muted); font-weight:600; }
+  .contact-number { font-size:13px; color:var(--accent3); font-weight:700; margin-top:4px; }
+  .emergency-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 16px 16px; }
+  .emergency-card { background:rgba(233,69,96,0.12); border:1px solid var(--accent); border-radius:var(--radius-sm); padding:14px; text-align:center; cursor:pointer; text-decoration:none; display:block; }
+  .emergency-card .e-num { font-family:'Bangers',cursive; font-size:32px; color:var(--accent); }
+  .emergency-card .e-name { font-size:11px; color:var(--text-muted); font-weight:700; margin-top:2px; }
+
+  /* CHECKLIST */
+  .check-item { display:flex; align-items:flex-start; gap:12px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); cursor:pointer; }
+  .check-box { width:22px; height:22px; border-radius:6px; border:2px solid var(--accent3); flex-shrink:0; display:flex; align-items:center; justify-content:center; margin-top:1px; transition:all 0.15s; }
+  .check-box.done { background:var(--accent3); border-color:var(--accent3); }
+  .check-box.done::after { content:'✓'; color:#111; font-weight:900; font-size:13px; }
+  .ct { font-size:14px; line-height:1.5; }
+  .ct.done { color:var(--text-muted); text-decoration:line-through; }
+
+  /* DAY CHIP */
+  .day-chip { display:inline-block; background:var(--accent2); color:#111; font-size:11px; font-weight:800; padding:2px 10px; border-radius:10px; margin-right:6px; }
+
+  /* SCRIPT BLOCK */
+  .script-block { background:rgba(255,255,255,0.04); border-radius:12px; padding:14px; font-size:13px; line-height:1.8; font-family:monospace; color:#ddd; margin-top:10px; }
+
+  /* BOTTOM NAV */
+  #bottom-nav { position:fixed; bottom:0; left:0; right:0; background:rgba(15,15,26,0.97); backdrop-filter:blur(12px); border-top:1px solid rgba(255,255,255,0.08); display:flex; z-index:200; }
+  .nav-item { flex:1; padding:10px 4px 12px; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; border:none; background:none; color:var(--text-muted); font-family:'Nunito',sans-serif; transition:color 0.15s; }
+  .nav-item.active { color:var(--accent); }
+  .nav-item .ni { font-size:22px; }
+  .nav-item .nl { font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; }
+
+  ::-webkit-scrollbar { width:4px; } ::-webkit-scrollbar-thumb { background:var(--accent); border-radius:2px; }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="logo">LSF</div>
+  <p>Camp Tutor Pack 2026</p>
+  <p style="font-size:12px;margin-top:2px;color:#666">Once Upon A Time Machine 🚀</p>
+</div>
+
+<!-- HEADER -->
+<div id="header">
+  <button id="back-btn" onclick="goBack()">←</button>
+  <div style="flex:1">
+    <div id="header-title">LSF CAMP</div>
+    <div id="header-sub">Tutor Pack 2026</div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="view-home" class="view active">
+  <div id="home-hero">
+    <h1>ONCE UPON A<br>TIME MACHINE</h1>
+    <p>Lingue Senza Frontiere · Sanremo</p>
+    <span class="badge">Tutor Pack 2026</span>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-card" data-color="red"    onclick="go('role')">      <span class="card-icon">🎓</span><div class="card-title">Your Role</div><div class="card-sub">Guide & rules</div></div>
+    <div class="menu-card" data-color="orange" onclick="go('timetable')"> <span class="card-icon">📅</span><div class="card-title">Schedule</div><div class="card-sub">Week 1 & 2</div></div>
+    <div class="menu-card" data-color="blue"   onclick="go('songs')">     <span class="card-icon">🎵</span><div class="card-title">Songs</div><div class="card-sub">Lyrics + Audio</div></div>
+    <div class="menu-card" data-color="green"  onclick="go('games')">     <span class="card-icon">🎮</span><div class="card-title">Games</div><div class="card-sub">All categories</div></div>
+    <div class="menu-card full" data-color="red" onclick="go('activities')"><span class="card-icon">🏆</span><div class="card-title">Big Activities</div><div class="card-sub">Quiz · Fashion · Olympics and more</div></div>
+    <div class="menu-card" data-color="orange" onclick="go('classroom')"> <span class="card-icon">📚</span><div class="card-title">Classroom</div><div class="card-sub">Management tips</div></div>
+    <div class="menu-card" data-color="blue"   onclick="go('show')">      <span class="card-icon">🎭</span><div class="card-title">Show</div><div class="card-sub">Lo Spettacolo</div></div>
+    <div class="menu-card" data-color="green"  onclick="go('checklist')"> <span class="card-icon">✅</span><div class="card-title">Checklist</div><div class="card-sub">Day 1 & daily</div></div>
+    <div class="menu-card full" data-color="red" onclick="go('contacts')"> <span class="card-icon">📞</span><div class="card-title">Contacts & Emergencies</div><div class="card-sub">Key numbers · 112 · 118</div></div>
+  </div>
+</div>
+
+<!-- SONGS -->
+<div id="view-songs" class="view">
+  <div class="section-header"><h2 style="color:var(--accent3)">🎵 SONGS</h2><p>Lyrics · Levels · Audio player</p></div>
+  <div class="content-list" id="songs-list"></div>
+</div>
+
+<!-- GAMES -->
+<div id="view-games" class="view">
+  <div class="section-header"><h2 style="color:var(--accent4)">🎮 GAMES</h2><p>Name games · Active · Drama · Musical · Outdoor</p></div>
+  <div class="content-list" id="games-list"></div>
+</div>
+
+<!-- ACTIVITIES -->
+<div id="view-activities" class="view">
+  <div class="section-header"><h2 style="color:var(--accent)">🏆 BIG ACTIVITIES</h2><p>One main activity per day</p></div>
+  <div class="content-list" id="activities-list"></div>
+</div>
+
+<!-- TIMETABLE -->
+<div id="view-timetable" class="view">
+  <div class="section-header"><h2 style="color:var(--accent2)">📅 IDEAL TIMETABLE</h2><p>Tap a day to expand</p></div>
+  <div style="padding:12px 16px"><p style="font-size:12px;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Week 1</p><div id="tt-w1"></div></div>
+  <div style="padding:0 16px 12px"><p style="font-size:12px;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Week 2</p><div id="tt-w2"></div></div>
+</div>
+
+<!-- ROLE -->
+<div id="view-role" class="view">
+  <div class="section-header"><h2 style="color:var(--accent)">🎓 YOUR ROLE</h2></div>
+  <div class="detail-body">
+    <p>LSF runs immersive English summer camps for Italian children. The method is <strong>edutainment</strong> — education through entertainment — using the <strong>CLIL</strong> approach (Content and Language Integrated Learning). This year's theme is <strong>Once Upon A Time Machine</strong>.</p>
+    <h3>The camp</h3>
+    <ul>
+      <li>Duration: 2 weeks (or 1), Monday–Friday</li>
+      <li>Hours: 9:00–16:30</li>
+      <li>From 1 to 11 tutors + camp leader</li>
+      <li>Max 15 students per class</li>
+      <li>Ages: 4–14 years old</li>
+    </ul>
+    <h3>Student levels</h3>
+    <div class="level-row">
+      <span class="level-badge white">⚪ White</span>
+      <span class="level-badge yellow">🟡 Yellow</span>
+      <span class="level-badge green">🟢 Green</span>
+      <span class="level-badge red">🔴 Red</span>
+      <span class="level-badge blue">🔵 Blue</span>
+    </div>
+    <ul>
+      <li><strong>White:</strong> 4–5 years (nursery)</li>
+      <li><strong>Yellow:</strong> 6–7 years (primary I–II)</li>
+      <li><strong>Green:</strong> 8–9 years (primary III–IV)</li>
+      <li><strong>Red:</strong> 10–11 years (primary V – middle school I)</li>
+      <li><strong>Blue:</strong> 12–14 years (middle school II–III)</li>
+    </ul>
+    <div class="tip-box">💡 During camp you will stay with a host family — usually the family of one of the campers. It's a unique experience of Italian culture!</div>
+    <h3>Golden rules</h3>
+    <ul>
+      <li>Never lose your temper with a colleague during camp</li>
+      <li>Constructive feedback only at the end of the day (WWW &amp; EBI)</li>
+      <li>No smoking on school grounds — it is illegal in Italy</li>
+      <li>Be punctual for all group activities</li>
+      <li>Supervise children at all times, especially during breaks</li>
+    </ul>
+    <div class="warn-box">⚠️ No smoking within 20 metres of the school. It is illegal.</div>
+    <h3>WWW &amp; EBI</h3>
+    <p><strong>What Went Well</strong> and <strong>Even Better If</strong>: every evening, grab a coffee together and do this debrief. It is the most important part of teamwork.</p>
+    <h3>On-call tutors</h3>
+    <p>At any time, a number of tutors must remain on call at Blue Beach or the company apartment in Sanremo, ready to travel to a camp within one or two hours if a replacement is needed.</p>
+    <h3>Camp allocations</h3>
+    <p>Allocations are decided by LSF based on many factors. Personal requests (location preferences, working with specific people) cannot be taken into account. As a rule, couples are not placed together on camp.</p>
+  </div>
+</div>
+
+<!-- CLASSROOM -->
+<div id="view-classroom" class="view">
+  <div class="section-header"><h2 style="color:var(--accent2)">📚 CLASSROOM MANAGEMENT</h2></div>
+  <div class="detail-body">
+    <h3>Meet &amp; Greet</h3>
+    <p>Welcome children at the door with a smile. Shake hands with older students. <strong>You control who enters the classroom.</strong></p>
+    <h3>Class Contract</h3>
+    <p>On day one, agree on class rules together. Write them on a visible poster — it's an agreement, not a command.</p>
+    <ul><li>5–6 rules for Yellow/Green</li><li>8–10 rules for Red/Blue</li></ul>
+    <h3>Points and rewards</h3>
+    <p>Italian children <em>love</em> competition. Use team points consistently. Even a small prize (pencil, bookmark) motivates a lot.</p>
+    <div class="tip-box">💡 Useful phrases: "Wow! Good job! Nice going! Keep it up! Great effort! You're doing fine!"</div>
+    <h3>Eliminate downtime</h3>
+    <p>When children have nothing to do, everything falls apart. Always have backup activities ready.</p>
+    <h3>Volume and attention</h3>
+    <ul>
+      <li>Never try to shout over the class — there are more of them than you</li>
+      <li>Use the "V for peace" gesture raised: silent attention without shouting</li>
+      <li>Clap a short pattern — kids love copying it</li>
+      <li>Never play energetic games right before returning to written work</li>
+    </ul>
+    <h3>Speaking with non-native speakers</h3>
+    <ul>
+      <li>Speak slowly and simply</li>
+      <li>Use only vocabulary they have already studied</li>
+      <li>Use body language and facial expressions (Italians understand gestures!)</li>
+      <li>Repeat key words throughout the day — don't overload them with new vocabulary</li>
+      <li>Enunciate clearly. Define unfamiliar words with examples and drawings.</li>
+    </ul>
+    <h3>Blue students (12–14 years)</h3>
+    <p>Teenagers are the most challenging but also the most rewarding. Treat them with respect and maintain a clear teacher/student relationship.</p>
+    <div class="tip-box">💡 Blue students respond well to projects with a concrete outcome: a short film, a camp vlog, a documentary. Use their smartphones if needed.</div>
+    <h3>CLIL in practice</h3>
+    <p>Students focus on subject matter (history, science, the future) rather than the language learning process itself. Fluency is more important than accuracy. Vocabulary is dictated by the topic, not the teacher.</p>
+  </div>
+</div>
+
+<!-- SHOW -->
+<div id="view-show" class="view">
+  <div class="section-header"><h2 style="color:var(--accent)">🎭 LO SPETTACOLO</h2><p>The final product parents will see and remember</p></div>
+  <div class="detail-body">
+    <div class="warn-box">⚠️ Don't leave show preparation until the last moment! Start from Day 1.</div>
+    <h3>Duration by level</h3>
+    <ul>
+      <li><strong>Yellow/Green:</strong> 3–7 minutes + songs</li>
+      <li><strong>Red/Blue:</strong> 5–10 minutes + songs</li>
+      <li><strong>Whole camp show:</strong> 15–25 minutes</li>
+    </ul>
+    <h3>Script deadline</h3>
+    <p>Script must be finalised by <strong>Friday evening of Week 1</strong> so children can take lines home to learn.</p>
+    <h3>Voice projection</h3>
+    <p>Invite "Granny" (a tutor in role) who is hard of hearing and makes children repeat when too quiet. Younger students love this!</p>
+    <h3>Stage positioning</h3>
+    <ul>
+      <li>Never stand with back to the audience</li>
+      <li>In dialogue: not face-to-face, but three-quarters towards the audience</li>
+      <li>Avoid horizontal lines — use semi-circles or staggered positions</li>
+      <li>Use all available performance space</li>
+    </ul>
+    <h3>Music</h3>
+    <p>Every group must present at least <strong>2 action songs</strong>. No duplicates across the whole show. End the show/graduation with the full cast singing the Camp Song.</p>
+    <h3>Sample scripts</h3>
+    <div class="content-card" style="margin-bottom:8px" onclick="goDetail('script-white')">  <span class="level-badge white"  style="float:right;margin-top:-2px">White</span> <h3>Sample White Script</h3><p>Time machine introductions ▶</p></div>
+    <div class="content-card" style="margin-bottom:8px" onclick="goDetail('script-yellow')"> <span class="level-badge yellow" style="float:right;margin-top:-2px">Yellow</span><h3>The Land Before Time</h3><p>Little Foot, Cera, Ducky... ▶</p></div>
+    <div class="content-card" style="margin-bottom:8px" onclick="goDetail('script-green')">  <span class="level-badge green"  style="float:right;margin-top:-2px">Green</span> <h3>The Frogs Who Wanted a King</h3><p>Zeus, frogs, and a stork ▶</p></div>
+    <div class="content-card" style="margin-bottom:8px" onclick="goDetail('script-red')">    <span class="level-badge red"    style="float:right;margin-top:-2px">Red</span>   <h3>Asterix at the Olympic Games</h3><p>Romans vs Gauls in Greece ▶</p></div>
+    <div class="content-card"                           onclick="goDetail('script-blue')">   <span class="level-badge blue"   style="float:right;margin-top:-2px">Blue</span>  <h3>Moonflower</h3><p>How the moonhorses came to Japan ▶</p></div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div id="view-checklist" class="view">
+  <div class="section-header"><h2 style="color:var(--accent4)">✅ CHECKLIST</h2><p>Tap to tick off · Saved automatically</p></div>
+  <div style="padding:0 16px">
+    <h3 style="margin:16px 0 8px;font-size:12px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px">Before Day 1</h3>
+    <div id="cl-pre"></div>
+    <h3 style="margin:16px 0 8px;font-size:12px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px">Day 1 — In class</h3>
+    <div id="cl-day1"></div>
+    <h3 style="margin:16px 0 8px;font-size:12px;color:var(--accent2);text-transform:uppercase;letter-spacing:1px">Daily reminders</h3>
+    <div id="cl-daily"></div>
+  </div>
+</div>
+
+<!-- CONTACTS -->
+<div id="view-contacts" class="view">
+  <div class="section-header"><h2 style="color:var(--accent)">📞 CONTACTS</h2></div>
+  <div class="content-list">
+    <div class="contact-card"><div class="contact-avatar">🏢</div><div><div class="contact-name">LSF Office</div><div class="contact-role">Mon–Fri 8:30–18:30</div><div class="contact-number">0184 533661</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">👨‍💼</div><div><div class="contact-name">David</div><div class="contact-role">Office Liaison (only if office unavailable)</div><div class="contact-number">+39 392 8972851</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">👩‍💼</div><div><div class="contact-name">Raffaella</div><div class="contact-role">Tutor Coordinator</div><div class="contact-number">+39 347 0985432</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">👩‍🏫</div><div><div class="contact-name">Linda</div><div class="contact-role">Camp Organiser</div><div class="contact-number">+39 345 6170077</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">🎨</div><div><div class="contact-name">Art</div><div class="contact-role">Tutor</div><div class="contact-number">+39 342 3396980</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">⏱️</div><div><div class="contact-name">Tim</div><div class="contact-role">Tutor</div><div class="contact-number">+39 334 3668193</div></div></div>
+    <div class="contact-card"><div class="contact-avatar">🌟</div><div><div class="contact-name">Bri</div><div class="contact-role">Tutor</div><div class="contact-number">+39 342 3397186</div></div></div>
+  </div>
+  <div class="section-header"><p style="color:var(--accent);font-weight:800">🚨 EMERGENCY — tap to call</p></div>
+  <div class="emergency-grid">
+    <a href="tel:112" class="emergency-card"><div class="e-num">112</div><div class="e-name">Carabinieri</div></a>
+    <a href="tel:113" class="emergency-card"><div class="e-num">113</div><div class="e-name">Police</div></a>
+    <a href="tel:115" class="emergency-card"><div class="e-num">115</div><div class="e-name">Fire Service</div></a>
+    <a href="tel:118" class="emergency-card"><div class="e-num">118</div><div class="e-name">Ambulance</div></a>
+  </div>
+</div>
+
+<!-- DETAIL -->
+<div id="view-detail" class="view">
+  <div class="detail-body" id="detail-content"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div id="bottom-nav">
+  <button class="nav-item active" onclick="navTab('home')">      <span class="ni">🏠</span><span class="nl">Home</span></button>
+  <button class="nav-item"        onclick="navTab('songs')">     <span class="ni">🎵</span><span class="nl">Songs</span></button>
+  <button class="nav-item"        onclick="navTab('games')">     <span class="ni">🎮</span><span class="nl">Games</span></button>
+  <button class="nav-item"        onclick="navTab('timetable')"> <span class="ni">📅</span><span class="nl">Schedule</span></button>
+  <button class="nav-item"        onclick="navTab('contacts')">  <span class="ni">📞</span><span class="nl">Contacts</span></button>
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────
+
+const SONGS = [
+  { id:'camp-song',       title:'LSF Camp Song',                  level:'All levels',          mp3:'lsf_camp_song.mp3',
+    lyrics:`Chorus:
+Sing Hey Hooray! What a wonderful day
+With Lingue senza Frontiere, everybody play!
+Shout Woo, Yahoo! Red and yellow, green and blue
+We speak English every day and so can you!
+
+We're here to learn, we're here to play
+And have some fun along the way
+Come rain or shine, we're feeling fine
+At English Camp today
+
+We smile and laugh, we run and play
+We're learning lots of things to say
+The sun is hot but we are cool
+At English Camp today`},
+
+  { id:'time-traveller',  title:'The Time Traveller Song',        level:'Green · Red',         mp3:'time_traveller_song.mp3',
+    lyrics:`Travelling, travelling
+In a time machine
+To the future, to the past,
+In a time machine
+
+Spaceships, time shifts,
+Zombie dinosaurs too!
+Travelling in a time machine
+This is what we do!`},
+
+  { id:'time-machine',    title:'The Time Machine Song',          level:'Green',               mp3:'time_machine_song.mp3',
+    lyrics:`I like the robots, I like the dinosaurs
+I like the cavemen, I like to hear them roar
+I like travelling in my time machine
+Singing a doo wop a doo wop a doo wop doo
+
+I like the future and I like the past
+I like to go slow, I like to go real fast
+I like travelling in my time machine
+Singing a doo wop a doo wop a doo wop doo`},
+
+  { id:'dinosaurs',       title:'We Are The Dinosaurs',           level:'Yellow · Green',      mp3:'we_are_the_dinosaurs.mp3',
+    lyrics:`We are the dinosaurs, marching, marching!
+We are the dinosaurs — Whaddaya think of that?
+We are the dinosaurs, marching, marching
+We are the dinosaurs, we make the Earth flat!
+
+We stop and eat our food, when we're in the mood
+We stop and eat our food on the ground [...]
+
+We stop and take a rest, over in our nest [...]
+Roar!!!`},
+
+  { id:'flintstones',     title:'The Flintstones',                level:'Yellow',              mp3:'the_flintstones.mp3',
+    lyrics:`Flintstones, meet the Flintstones,
+They're the modern stone age family.
+From the town of Bedrock,
+They're a page right out of history.
+
+Let's ride with the family down the street,
+Through the courtesy of Fred's two feet.
+When you're with the Flintstones
+Have a yabba dabba doo time, a dabba doo time,
+We'll have a gay old time!`},
+
+  { id:'time-warp',       title:'The Time Warp',                  level:'Red · Blue · Parents',mp3:'the_time_warp.mp3',
+    lyrics:`Let's do the time warp again!
+Let's do the time warp again!
+
+It's just a jump to the left
+And then a step to the right
+With your hands on your hips
+You bring your knees in tight
+But it's the pelvic thrust
+That really drives you insane —
+Let's do the Time Warp again!`},
+
+  { id:'year-3000',       title:'Year 3000',                      level:'Red',                 mp3:'year_3000.mp3',
+    lyrics:`He said:
+I've been to the year 3000
+Not much has changed but they lived underwater
+And your great, great, great-granddaughter is pretty fine`},
+
+  { id:'little-l',        title:'Little L – Jamiroquai',          level:'Blue',                mp3:'little_l.mp3',
+    lyrics:`You make me love you, love you baby
+With a little L
+
+There you were freaking out,
+Trying to get your head around the fact that
+me and you and love is dead [...]`},
+
+  { id:'million-reasons', title:'Million Reasons – Lady Gaga',    level:'Blue',                mp3:'million_reasons.mp3',
+    lyrics:`You're giving me a million reasons to let you go
+You're giving me a million reasons to quit the show [...]
+
+I've got a hundred million reasons to walk away
+But baby, I just need one good one to stay`},
+
+  { id:'chained',         title:'Chained to the Rhythm – Katy Perry', level:'Blue',            mp3:'chained_to_the_rhythm.mp3',
+    lyrics:`Are we crazy?
+Living our lives through a lens
+Trapped in our white-picket fence
+Like ornaments [...]
+
+Turn it up, it's your favorite song
+Dance, dance, dance to the distortion
+We're all chained to the rhythm`},
+
+  { id:'ppap',            title:'PPAP (Pen Pineapple Apple Pen)', level:'Yellow',              mp3:'ppap.mp3',
+    lyrics:`I have a pen, I have an apple — Uh! Apple-Pen!
+I have a pen, I have pineapple — Uh! Pineapple-Pen!
+Apple-Pen, Pineapple-Pen
+Uh! Pen-Pineapple-Apple-Pen!`},
+
+  { id:'walk-egyptian',   title:'Walk Like An Egyptian',          level:'Red',                 mp3:'walk_like_an_egyptian.mp3',
+    lyrics:`All the old paintings on the tombs
+They do the sand dance don't you know [...]
+Foreign types with the hookah pipes say
+Ay oh whey oh, ay oh whey oh
+Walk like an Egyptian`},
+
+  { id:'final-countdown', title:'The Final Countdown',            level:'All · Show closer',   mp3:'final_countdown.mp3',
+    lyrics:`We're leaving together, but still it's farewell
+And maybe we'll come back to earth, who can tell? [...]
+It's the final countdown!`},
+
+  { id:'big-bang',        title:'Big Bang Theory Theme',          level:'Background / Blue',   mp3:'big_bang_theory.mp3',
+    lyrics:`Our whole universe was in a hot, dense state
+Then nearly fourteen billion years ago expansion started, wait [...]
+Math, science, history, unraveling the mysteries
+That all started with the big bang! Hey!`},
+];
+
+const GAMES = [
+  { cat:'Name Games', icon:'🏷️', col:'accent3', items:[
+    { n:'Action Name',   d:'Everyone adds an action to their name. Group copies and says "Hello [name]".' },
+    { n:'Zombie',        d:'One zombie walks towards someone. They must say another name before being touched or they become the zombie.' },
+    { n:'Time Bomb',     d:'Pass a ball saying names. Wrong answer or too slow = countdown. At zero, explode dramatically!' },
+    { n:'Star Names',    d:'Students remember name order creating a star pattern across the circle.' },
+    { n:'Bang',          d:'Classic pointing game using names.' },
+    { n:'Draw Your Name',d:'Draw objects for each letter of your name (e.g. Apple, Rhino, Tree for ART).' },
+  ]},
+  { cat:'Ice Breakers', icon:'🧊', col:'accent4', items:[
+    { n:'Truth Truth Lie',    d:'Tell 3 things about yourself — one is false. Group guesses the lie.' },
+    { n:'Swap Places If...',  d:'"Swap if you are wearing red / have a brother etc." Great energiser.' },
+    { n:'Human Knot',         d:'Everyone randomly holds hands across the circle, then untangle without letting go.' },
+    { n:'Come Sit Here',      d:'"[Name], come sit here because I like your [something]." New space opens, game continues.' },
+    { n:'Say Three Things',   d:'Everyone says 3 things about themselves. Older: one past, one present, one future.' },
+  ]},
+  { cat:'Active Games', icon:'🏃', col:'accent', items:[
+    { n:'Stop Clap Go',    d:'Classic signal game. Swap what each signal means as you go.' },
+    { n:'Save the Bacon',  d:'Two teams opposite each other, each player has a number. Called number races to grab the bacon.' },
+    { n:'Human Machine',   d:'Groups create sounds and movements to form an imaginary machine.' },
+    { n:'Four Corners',    d:'Each corner = an answer. Ask questions, kids run to the correct corner.' },
+    { n:'Number Call',     d:'Get into groups of the number called. Those left out are eliminated. Add body parts for extra fun!' },
+    { n:'Fruit Salad',     d:'Assign each child a fruit. Call a fruit — those children swap places. "Fruit salad" = everyone moves.' },
+  ]},
+  { cat:'Drama Games', icon:'🎭', col:'accent2', items:[
+    { n:'Emotion Scale',      d:'Choose an emotion. 1 = tiny, 10 = enormous. Call emotion + number, students perform.' },
+    { n:'What Are You Doing?',d:'Student does an action. Next asks "what are you doing?" — they describe a DIFFERENT action. Great improv.' },
+    { n:'Soundscapes',        d:'Groups create soundscapes of different places: seaside, haunted hotel, farm...' },
+    { n:'Typewriter',         d:'Tutor "writes" a story on imaginary typewriter. Students act it out in real time.' },
+    { n:'Funky Chicken',      d:'Count 1–10 shaking each limb in turn. Gets faster and faster. Ends with wild chicken dance!' },
+    { n:'Instruction Mime',   d:'Read short instructions, students act them out. Works for any theme or vocabulary area.' },
+  ]},
+  { cat:'Musical Games', icon:'🎶', col:'accent3', items:[
+    { n:'Musical Chairs',  d:'Classic. Give an action while moving (dancing, shaking). Eliminated players answer forfeit questions.' },
+    { n:'Number Call',     d:'When music stops, call a number — kids get into groups of that size.' },
+    { n:'Funny Bag',       d:'Bag of silly clothes passed around. When music stops: take an item, name it, wear it!' },
+    { n:'Pass the Parcel', d:'Classic — with a question or action between each layer.' },
+    { n:'Musical Statues', d:'When music stops, freeze. Extra twist: shout an object and everyone must freeze AS that object.' },
+  ]},
+  { cat:'Outdoor Games', icon:'☀️', col:'accent4', items:[
+    { n:"What's the Time Mr. Wolf?", d:'IT stands with back turned. Kids ask the time and step closer. "Dinnertime!" = run!' },
+    { n:'Olly Olly Octopus',         d:'Tag game where tagged players become extra taggers holding hands.' },
+    { n:'Capture the Flag',          d:'Two teams each hide a flag. Race to find the opponent\'s flag without being tagged.' },
+    { n:'Stuck in the Mud',          d:'Tagged players freeze with legs apart. Teammates crawl through to free them.' },
+    { n:'Ultimate Frisbee',          d:'Team sport — no running with the frisbee, pass to score.' },
+    { n:'Duck Duck Goose',           d:'Circle game. "Goose" must race around the circle and sit before IT does.' },
+    { n:'Captain\'s Coming',         d:'Commands based on nautical orders. Wrong move = eliminated.' },
+  ]},
+  { cat:'Thinking Games', icon:'🧠', col:'accent', items:[
+    { n:'Chinese Whispers',  d:'Classic whisper chain. Compare what comes out at the end!' },
+    { n:'One Word Stories',  d:'Tell a story in a circle, one word each. Great for older groups.' },
+    { n:'21 Questions',      d:'One person chooses a celebrity/object. Others ask yes/no questions to guess.' },
+    { n:'Scategories',       d:'5 categories + 1 letter. Write something for each. Points for unique answers.' },
+    { n:"Mugshots",          d:'Describe a person line by line and everyone draws them — without knowing who it is.' },
+    { n:'Tongue Twisters',   d:'She sells sea shells · Red lorry yellow lorry · Unique New York...' },
+  ]},
+];
+
+const ACTIVITIES = [
+  { id:'act1', day:'Day 1', title:'Ancient Greek Olympics',   icon:'🏛️',
+    body:`<p>A themed spin on classic team competitions. Relay races work very well — everyone gets involved.</p>
+<h3>Suggested events</h3>
+<ul><li>Over-under relay</li><li>Shoe relay</li><li>Wheelbarrow races</li><li>Egg & spoon (with a ball)</li><li>Leap frog</li><li>Pasta relay</li><li>Discus with a frisbee</li><li>Long jump</li><li>100m race</li><li>Marathon (run around the school 10 times)</li></ul>
+<div class="tip-box">💡 Teams nominate a representative for each event — just like real Olympics!</div>`},
+
+  { id:'act2', day:'Day 2', title:'Quiz Show',                icon:'🧠',
+    body:`<p>Objective: students practice WH-questions (What, When, Why, Where, Who, How many...).</p>
+<h3>Formats</h3>
+<ul>
+<li><strong>Jeopardy:</strong> Board with 5 categories (Future / Past / Present / Time Travellers / Challenges) worth 100–500 pts each.</li>
+<li><strong>Who Wants to be a Millionaire:</strong> Escalating questions. Lifelines: phone a tutor, ask my team, 50/50.</li>
+<li><strong>Blockbusters:</strong> Alphabet grid — each letter = a question whose answer starts with that letter.</li>
+</ul>
+<div class="tip-box">💡 Mix levels: easy questions for younger students, harder for older ones. Prepared questions work better than making them up on the spot.</div>`},
+
+  { id:'act3', day:'Day 3', title:'Fashion Show',             icon:'👗',
+    body:`<p>Objective: talk about colours, clothes, materials, descriptions. Tell students the day before to bring themed clothes from home.</p>
+<h3>Older groups</h3>
+<p>Teams of 2–4 get craft materials and 30–40 minutes to design a themed outfit. One member models it. Points for best catwalk and best English.</p>
+<h3>Younger groups</h3>
+<p>Design one item (hat, jewellery, t-shirt). Teach a simple catwalk routine to their favourite song.</p>
+<h3>Tutors</h3>
+<p>Students design an outfit for you too! Parade down the catwalk — points awarded by the Italian Camp Director.</p>`},
+
+  { id:'act4', day:'Day 4', title:'Students vs. Tutors',      icon:'⚔️',
+    body:`<p>Students get really competitive when they compete against YOU rather than just each other.</p>
+<h3>How it works</h3>
+<ul>
+<li>One-on-one competitions: skipping, arm wrestling, races, press ups, paper airplane, keepy ups, hula hoop, cartwheels...</li>
+<li>Student wins = 10 points for their team. Tutor wins = 5 points for the tutors.</li>
+<li>Choose challenges that suit different skills — the football-crazy kid, the acrobatic girl...</li>
+</ul>
+<div class="tip-box">💡 If it works well, turn the Family Fun Event into Students vs. Parents vs. Tutors!</div>`},
+
+  { id:'act5', day:'Day 5', title:'Family Fun Event',         icon:'👨‍👩‍👧',
+    body:`<p>Parents come to camp! They see examples of activities and participate. This is their first impression of you — be organised.</p>
+<h3>Games with parents</h3>
+<ul>
+<li><strong>White/Yellow:</strong> Human Machine — using simple vocabulary campers already know</li>
+<li><strong>Green/Red/Blue:</strong> Number Call — include body part vocabulary ("3 elbows!") for extra challenge</li>
+</ul>
+<p>Finish with 2–4 songs including the Camp Song. The Time Warp works brilliantly with parents!</p>
+<div class="warn-box">⚠️ Send invitations home on Day 1. Collect RSVPs by Day 3 at the latest.</div>`},
+
+  { id:'act6', day:'Day 6', title:'Talent Show',              icon:'⭐',
+    body:`<p>Objective: talk about abilities (can/can't), hobbies, sports. Every student must be involved — good practice for the final show.</p>
+<h3>Format</h3>
+<p>Model it on Italy's Got Talent. Tutors (or confident Blue students) are judges with different personalities: a Simon Cowell type and a flamboyant generous one. Marks out of 10.</p>
+<div class="tip-box">💡 The harsh judge can get so annoyed they throw water at their colleague and storm out — kids absolutely love it!</div>`},
+
+  { id:'act7', day:'Day 7', title:'Scavenger Hunt',           icon:'🗺️',
+    body:`<p>Great for practising prepositions, adjectives, directions, map reading.</p>
+<h3>Formats by age</h3>
+<ul>
+<li><strong>Older:</strong> Alphabet Scavenger Hunt — find items for each letter A–Z that fit in a bag</li>
+<li><strong>All:</strong> Buried Treasure Hunt — collect colour-coded "coins"</li>
+<li><strong>All:</strong> Vocabulary Hunt — find hidden pictures, write the English word correctly</li>
+<li><strong>Younger:</strong> Silly String — find hidden strings and tie them together for the longest string</li>
+</ul>
+<div class="warn-box">⚠️ Always give a small prize (sweets) just for completing the hunt. Have a backup plan — some groups finish in 5 minutes!</div>`},
+
+  { id:'act8', day:'Day 8', title:'Water Games / Carnival',   icon:'💦',
+    body:`<p>Always get the Italian Camp Director's approval first. Warn students and parents the day before — bring a towel and dry clothes.</p>
+<h3>Water games</h3>
+<ul>
+<li><strong>Water Balloon Toss:</strong> Partners throw and step back each round. Last dry pair wins.</li>
+<li><strong>Over and Under:</strong> Sponge relay — pass over head, through legs, to the end.</li>
+<li><strong>Don't Say That:</strong> Think of an animal; if someone in the circle says it, squirt them!</li>
+<li><strong>Obstacle Race:</strong> Each student carries a cup of water through a course. Most water left wins.</li>
+<li><strong>Drip Drip Drop:</strong> Like Duck Duck Goose but with a cup of water.</li>
+</ul>
+<div class="warn-box">⚠️ This is NOT a water fight. Wet surfaces are slipping hazards. Define the play area clearly.</div>`},
+];
+
+const TT_W1 = [
+  { day:'Day 1 — Monday',    theme:'GREETINGS & INTRODUCTIONS', slots:[
+    {t:'8:00', a:'Prepare materials and spaces'},
+    {t:'8:30', a:'Welcome & Open Camp · Song Circle · Good Camper/Bad Camper · Name Call'},
+    {t:'9:45', a:'Classrooms: name games & intros'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Folders & classroom games'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts: Time Machine Door Curtains'},
+    {t:'14:45',a:'🏛️ BIG ACTIVITY: ANCIENT GREEK OLYMPICS', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Lapbook · Family Fun Invitations'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 2 — Tuesday',   theme:'THE LAND BEFORE TIME', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Folders & classroom games'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts: Dinosaur Masks & Pop-Ups'},
+    {t:'14:45',a:'🧠 BIG ACTIVITY: QUIZ SHOW (JEOPARDY)', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Lapbook · Introduce show theme'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 3 — Wednesday', theme:'ANCIENT CULTURES', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Folders & classroom games'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts & Fashion Show prep'},
+    {t:'14:45',a:'👗 BIG ACTIVITY: FASHION SHOW', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Lapbook · Brainstorm show ideas'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 4 — Thursday',  theme:'ORIGINS OF THE WORLD', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Folders & classroom games'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts: Time Capsule'},
+    {t:'14:45',a:'⚔️ BIG ACTIVITY: STUDENTS VS. TUTORS', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Lapbook · Show storyboards'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 5 — Friday',    theme:'STORYTELLING', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Introduce vocab · Tell the story'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Storytelling activities'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Storytelling Crafts'},
+    {t:'14:45',a:'Lapbook · Work on script · Clean up'},
+    {t:'15:45',a:'BREAK', hi:1},
+    {t:'16:00',a:'👨‍👩‍👧 FAMILY FUN EVENT', hi:1},
+    {t:'16:45',a:'Close Camp'},
+  ]},
+];
+
+const TT_W2 = [
+  { day:'Day 6 — Monday',    theme:'THE FUTURE', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Show work'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts: Robots & Futuristic Cities'},
+    {t:'14:45',a:'⭐ BIG ACTIVITY: TALENT SHOW + INVITATIONS', hi:1},
+    {t:'15:45',a:'Lapbook · Finalise script'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 7 — Tuesday',   theme:'DISCOVERY: TIME & SPACE', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Show work'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Arts & Crafts: Show costumes, props, backdrops'},
+    {t:'14:45',a:'🗺️ BIG ACTIVITY: SCAVENGER HUNT', hi:1},
+    {t:'15:45',a:'Lapbook · Revise script'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 8 — Wednesday', theme:'RECENT HISTORY', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Show work'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Show crafts'},
+    {t:'14:45',a:'💦 BIG ACTIVITY: WATER GAMES or CARNIVAL', hi:1},
+    {t:'15:45',a:'Finish Lapbook · Lines to take home'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 9 — Thursday',  theme:'SHOW REHEARSALS', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Classrooms: folder work & games'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Outdoor Games'},
+    {t:'11:45',a:'Show work · Graduation hats'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Decorate stage · Stage Decoration', hi:1},
+    {t:'14:45',a:'🎭 DRESS REHEARSALS', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Rehearse show'},
+    {t:'16:15',a:'Song Circle · Close Camp'},
+  ]},
+  { day:'Day 10 — Friday',   theme:'SHOW AND FAREWELLS', slots:[
+    {t:'8:45', a:'Welcome & Open Camp · Song Circle'},
+    {t:'9:30', a:'Present Certificates · Camp Diary last page'},
+    {t:'10:45',a:'BREAK TIME', hi:1},
+    {t:'11:05',a:'Favourite Games'},
+    {t:'11:45',a:'Show work'},
+    {t:'12:45',a:'LUNCH TIME & GAMES', hi:1},
+    {t:'13:45',a:'Final preparations · Pack & tidy classrooms'},
+    {t:'14:45',a:'🎭 DRESS REHEARSALS', hi:1},
+    {t:'15:30',a:'BREAK', hi:1},
+    {t:'15:45',a:'Set up for show · Motivational team talk'},
+    {t:'16:00',a:'🎓 FINAL SHOW · GRADUATION & PARTY!', hi:1},
+  ]},
+];
+
+const CHECKLISTS = {
+  pre:[
+    'Plan the entire first day together with other tutors',
+    'Decide team names for whole-camp activities',
+    'Ask what time you can first access the school',
+    'Confirm the camp timetable with Camp Director',
+    'Confirm which spaces you have use of',
+    'Confirm class lists are correct',
+    'Confirm when/where the Final Show and Family Fun Event will take place',
+    'Ask if Water Games are allowed',
+    'Ask if you can stick things to the walls',
+    'Allocate classrooms, organise desks',
+    'Organise how to arrive on Monday at 8:00 AM',
+    'Prepare lesson plans for the first few days',
+    'Prepare backup activities for every session',
+  ],
+  day1:[
+    'Wear LSF t-shirt, name badge and whistle',
+    'Greet campers at the school entrance from 8:30',
+    'Sing the LSF Camp Song',
+    'Demonstrate Good Camper / Bad Camper',
+    'Create class rules together (Class Contract)',
+    'Create points system and divide class into teams',
+    'Hand out and label camp bags',
+    'Play name games',
+    'Explain timetable and big activities',
+    'Send Family Fun Invitations home with students',
+    'Arts & Crafts: Time Machine Door Curtain',
+    'Closing Song Circle',
+    'WWW & EBI team debrief',
+  ],
+  daily:[
+    'Daily: LSF Camp Song at opening',
+    'Daily: Song Circle',
+    'Daily: Classroom activities',
+    'Daily: Outdoor games',
+    'Daily: Arts & crafts',
+    'Daily: Big activity',
+    'Daily: Update Lapbooks',
+    'Daily: Clean classroom',
+    'Daily: Closing Song Circle',
+    'Daily: WWW & EBI team debrief',
+    'Day 2: Fashion Show tomorrow — remind students to bring clothes',
+    'Day 3: Time Capsule tomorrow — remind students to bring items',
+    'Day 4: Family Fun Event tomorrow',
+    'Day 5: Talent Show on Monday',
+    'Day 6: Send home Final Show Invitations',
+    'Day 7: Water Games tomorrow — bring towel & spare clothes',
+    'Day 8: Students take lines home to learn',
+    'Day 9: Final Show tomorrow — bring any costumes & props',
+  ],
+};
+
+const SCRIPTS = {
+  'script-white':  { title:'Sample White Script',          sub:'White · 4–5 years',
+    html:`<h2>🤍 White Level Script</h2><div class="level-row"><span class="level-badge white">White</span></div>
+<p>Simple introductions in a time machine theme. Tutor acts as narrator/MC on stage.</p>
+<div class="script-block">Alberto: Hello, my name is Alberto.
+Cecilia: Hi, I'm Cecilia.
+All: We love time travelling!
+Paolo: I love the future!
+Alice: I love the past!
+All: Let's go!
+Lucia: Quick, into the time machine!
+[ALL SPIN AROUND]
+Cecilia: Wow! Look, dinosaurs!
+Lucia: It's the past!
+Paolo: Hey, robots!
+Alberto: We are in the future!
+Alice: This is great!
+
+SONG, ALL: Time Machine Song</div>`},
+
+  'script-yellow': { title:'The Land Before Time',         sub:'Yellow · 6–7 years',
+    html:`<h2>🟡 Yellow Script: The Land Before Time</h2><div class="level-row"><span class="level-badge yellow">Yellow</span></div>
+<p>Little Foot, Cera, Ducky, Petrie and Spike find their way to the Green Valley while avoiding Sharp Tooth.</p>
+<div class="tip-box">💡 Each new character arrives and joins the group. The song "Big Sharp Tooth" is repeated after each arrival.</div>
+<div class="script-block">LITTLEFOOT: Mom? Mom? Where are you? Oh no! I'm lost!
+[CERA enters]
+CERA: Where are you going? What's your name?
+LF: My name is Little Foot. I'm going to Green Valley!
+CERA: Let me come with you!
+[...each dinosaur friend joins in turn, warns about Sharp Tooth...]
+[SHARPTOOTH enters]
+SHARPTOOTH: I'm hungry and very angry, ROAAAARR!
+[...they defeat Sharp Tooth with a rock...]
+ALL: It's the Green Valley! HURRAY!
+
+FINAL SONG: WE ARE THE DINOSAURS</div>`},
+
+  'script-green':  { title:'The Frogs Who Wanted a King',  sub:'Green · 8–9 years',
+    html:`<h2>🟢 Green Script: The Frogs Who Wanted a King</h2><div class="level-row"><span class="level-badge green">Green</span></div>
+<p>Frogs ask Zeus for a king. He gives them a log. They complain again. He sends a stork. Moral: be careful what you wish for!</p>
+<div class="script-block">F1: What a nice day!
+F5: I know! We need a king!
+ALL FROGS: Mighty Zeus! Please give us a king!
+[ZEUS enters on top of a desk]
+ZEUS: HA HA HA! Sure! Here you go!
+[ZEUS throws a giant log into the pond — frogs scatter]
+[Eventually they climb on the log and realise it is useless]
+ALL FROGS: Mighty Zeus! We want a REAL king!
+ZEUS: I'm VERY ANGRY! Stork! Go teach them a lesson!
+[STORK enters, very angry]
+STORK: SHRIEEEK! You made Zeus angry!
+[STORK chases frogs]
+ALL FROGS: We are sorry! HEEEEELP!
+
+SONGS: ANTS IN YOUR PANTS / LITTLE GREEN FROG</div>`},
+
+  'script-red':    { title:'Asterix at the Olympic Games', sub:'Red · 10–11 years',
+    html:`<h2>🔴 Red Script: Asterix at the Olympic Games</h2><div class="level-row"><span class="level-badge red">Red</span></div>
+<p>Romans vs. Gauls in ancient Greece. Magic potion, cheating, and justice — with an angry mob of women as bonus characters.</p>
+<p><strong>Characters:</strong> Asterix · Obelix · Getafix · Gluteus Maximus · Gaius · Greek Sports Judge · Megaphonos · Angry Mob of Women</p>
+<div class="script-block">GSJ: The Gauls are going to participate in the Olympic Games.
+GAIUS: WHAT?!
+GLUTEUS: That's impossible! Romans are the only foreigners allowed!
+[...]
+GETAFIX [shouts]: There is a leftover cauldron right behind the Roman gym!
+[Gluteus sneaks off and drinks the potion]
+[After the race...]
+GETAFIX: I added blue colouring to the potion. Anyone who drinks it gets a blue tongue!
+[Gluteus sticks out his tongue — it is blue]
+GSJ: By Zeus! GLUTEUS MAXIMUS is disqualified. ASTERIX is the winner!
+GVS: HURRAY FOR ASTERIX! HURRAY FOR GAUL!
+
+FINAL SONG: BACK IN TIME</div>`},
+
+  'script-blue':   { title:'Moonflower',                   sub:'Blue · 12–14 years',
+    html:`<h2>🔵 Blue Script: Moonflower</h2><div class="level-row"><span class="level-badge blue">Blue</span></div>
+<p>A Japanese-inspired story. A moon princess is sent to a poor but kind family to bring them happiness and good fortune.</p>
+<p><strong>Characters:</strong> Moonflower · Mom · Dad · Tiny Moonhorse · Village Mayor · Villagers · Moon People · Kind Moon Boy · Moon Voice</p>
+<div class="script-block">MOONHORSE: Don't be sad. I will trust you with one of my children.
+[MOONFLOWER emerges from a cherry-coloured tablecloth]
+MOONHORSE: Use the years wisely, and all will be well.
+[...]
+MF: I think it's time I had brothers and sisters.
+DAD: Perhaps the moon meant exactly that — use the years wisely.
+[The family adopts orphans from the village]
+[...]
+MOON VOICE: You have used the years wisely. Every year, on her birthday, Moonflower will return for a long visit.
+EVERYBODY: HURRAY FOR MOONFLOWER!
+
+FINAL SONG: MILLION REASONS</div>`},
+};
+
+// ── STATE ─────────────────────────────────────────────────
+let history = [];
+let current = 'home';
+let audioEls = {};
+let checks = JSON.parse(localStorage.getItem('lsf26-checks') || '{}');
+
+// ── INIT ──────────────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('splash').style.opacity = '0';
+    setTimeout(() => document.getElementById('splash').style.display='none', 500);
+  }, 1200);
+  buildSongs();
+  buildGames();
+  buildActivities();
+  buildTimetable('tt-w1', TT_W1);
+  buildTimetable('tt-w2', TT_W2);
+  buildChecklist('cl-pre',   CHECKLISTS.pre,   'pre');
+  buildChecklist('cl-day1',  CHECKLISTS.day1,  'day1');
+  buildChecklist('cl-daily', CHECKLISTS.daily, 'daily');
+});
+
+// ── NAVIGATION ────────────────────────────────────────────
+function showView(id, title, sub) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const v = document.getElementById('view-'+id);
+  if (v) { v.classList.add('active'); setTimeout(()=>v.classList.add('animate-in'),10); }
+  document.getElementById('header-title').textContent = title || 'LSF CAMP';
+  document.getElementById('header-sub').textContent   = sub   || 'Tutor Pack 2026';
+  document.getElementById('back-btn').style.display   = history.length ? 'block' : 'none';
+  window.scrollTo(0,0);
+}
+
+const VIEWS = {
+  home:      ['home',      'LSF CAMP',        'Tutor Pack 2026'],
+  songs:     ['songs',     'SONGS',            'Lyrics & audio'],
+  games:     ['games',     'GAMES',            'All categories'],
+  timetable: ['timetable', 'SCHEDULE',         'Week 1 & 2'],
+  contacts:  ['contacts',  'CONTACTS',         'Emergency numbers'],
+  role:      ['role',      'YOUR ROLE',        'Tutor guide'],
+  classroom: ['classroom', 'CLASSROOM',        'Management tips'],
+  show:      ['show',      'LO SPETTACOLO',    'Final show guide'],
+  checklist: ['checklist', 'CHECKLIST',        'Day 1 & daily'],
+  activities:['activities','BIG ACTIVITIES',   'Daily main event'],
+  detail:    ['detail',    '',                 ''],
+};
+
+function navTab(id) {
+  history = []; current = id;
+  document.querySelectorAll('.nav-item').forEach((n,i) => n.classList.toggle('active', ['home','songs','games','timetable','contacts'][i]===id));
+  showView(...VIEWS[id]);
+}
+
+function go(id) {
+  history.push(current); current = id;
+  showView(...VIEWS[id]);
+}
+
+function goDetail(id) {
+  const s = SCRIPTS[id];
+  if (!s) {
+    const a = ACTIVITIES.find(x=>x.id===id);
+    if (!a) return;
+    history.push(current); current='detail';
+    document.getElementById('detail-content').innerHTML = `<h2>${a.icon} ${a.title}</h2><span class="day-chip">${a.day}</span>${a.body}`;
+    showView('detail', a.title.toUpperCase(), a.day);
+    return;
+  }
+  history.push(current); current='detail';
+  document.getElementById('detail-content').innerHTML = s.html;
+  showView('detail', s.title.toUpperCase(), s.sub);
+}
+
+function goBack() {
+  if (!history.length) return;
+  current = history.pop();
+  showView(...VIEWS[current]);
+}
+
+// ── SONGS ─────────────────────────────────────────────────
+function buildSongs() {
+  const c = document.getElementById('songs-list');
+  SONGS.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'song-card';
+    d.innerHTML = `
+      <div class="song-title">${s.title}</div>
+      <div class="song-level">🎓 ${s.level}</div>
+      <button class="lyrics-toggle" onclick="toggleLyrics('${s.id}')">📜 Lyrics</button>
+      <button class="lyrics-toggle" style="border-color:var(--accent2);color:var(--accent2)" onclick="toggleAudio('${s.id}')">🎵 Audio</button>
+      <div class="lyrics-block" id="ly-${s.id}">${s.lyrics}</div>
+      <div class="audio-player" id="ap-${s.id}" style="display:none">
+        <div class="audio-row">
+          <button class="play-btn" id="pb-${s.id}" onclick="playAudio('${s.id}','${s.mp3}')">▶</button>
+          <div class="audio-info">
+            <div class="audio-name">${s.title}</div>
+            <div class="audio-hint" id="ah-${s.id}">Add "${s.mp3}" in the same folder as this file</div>
+          </div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="pf-${s.id}"></div></div>
+      </div>`;
+    c.appendChild(d);
+  });
+}
+
+function toggleLyrics(id) { document.getElementById('ly-'+id).classList.toggle('open'); }
+function toggleAudio(id)  { const e=document.getElementById('ap-'+id); e.style.display=e.style.display==='none'?'block':'none'; }
+
+function playAudio(id, file) {
+  if (!audioEls[id]) {
+    const a = new Audio(file);
+    audioEls[id] = a;
+    a.addEventListener('timeupdate', () => {
+      if (a.duration) document.getElementById('pf-'+id).style.width=(a.currentTime/a.duration*100)+'%';
+    });
+    a.addEventListener('ended', () => { document.getElementById('pb-'+id).textContent='▶'; document.getElementById('pf-'+id).style.width='0%'; });
+    a.addEventListener('error', () => { document.getElementById('ah-'+id).textContent='⚠️ File not found: '+file; });
+  }
+  const a = audioEls[id], btn = document.getElementById('pb-'+id);
+  if (a.paused) {
+    Object.keys(audioEls).forEach(k => { if (k!==id && !audioEls[k].paused) { audioEls[k].pause(); document.getElementById('pb-'+k).textContent='▶'; }});
+    a.play().catch(() => { document.getElementById('ah-'+id).textContent='⚠️ File not found: '+file; });
+    btn.textContent='⏸';
+  } else { a.pause(); btn.textContent='▶'; }
+}
+
+// ── GAMES ─────────────────────────────────────────────────
+function buildGames() {
+  const c = document.getElementById('games-list');
+  GAMES.forEach(cat => {
+    const d = document.createElement('div');
+    d.className = 'content-card';
+    d.style.borderLeftColor = `var(--${cat.col})`;
+    d.innerHTML = `<span class="arrow">›</span><h3>${cat.icon} ${cat.cat}</h3><p>${cat.items.length} games · tap to expand</p><div class="inner" style="display:none;margin-top:10px"></div>`;
+    d.addEventListener('click', () => {
+      const inner = d.querySelector('.inner');
+      const open = inner.style.display !== 'none';
+      inner.style.display = open ? 'none' : 'block';
+      d.querySelector('.arrow').textContent = open ? '›' : '↓';
+      if (!open && !inner.dataset.built) {
+        inner.dataset.built = '1';
+        inner.innerHTML = cat.items.map(g=>`<div style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)"><div style="font-weight:800;font-size:14px">${g.n}</div><div style="font-size:12px;color:var(--text-muted);margin-top:3px;line-height:1.6">${g.d}</div></div>`).join('');
+      }
+    });
+    c.appendChild(d);
+  });
+}
+
+// ── ACTIVITIES ────────────────────────────────────────────
+function buildActivities() {
+  const c = document.getElementById('activities-list');
+  ACTIVITIES.forEach(a => {
+    const d = document.createElement('div');
+    d.className = 'content-card';
+    d.innerHTML = `<span class="arrow">›</span><h3>${a.icon} ${a.title}</h3><p><span class="day-chip">${a.day}</span></p>`;
+    d.addEventListener('click', () => goDetail(a.id));
+    c.appendChild(d);
+  });
+}
+
+// ── TIMETABLE ─────────────────────────────────────────────
+function buildTimetable(containerId, days) {
+  const c = document.getElementById(containerId);
+  days.forEach(day => {
+    const d = document.createElement('div');
+    d.className = 'tt-day';
+    d.innerHTML = `
+      <div class="tt-day-header" onclick="this.nextElementSibling.classList.toggle('open')">
+        <span class="tt-name">${day.day}</span>
+        <span class="tt-theme">${day.theme}</span>
+      </div>
+      <div class="tt-slots">${day.slots.map(s=>`<div class="tt-slot${s.hi?' hi':''}"><span class="tt-time">${s.t}</span><span class="tt-activity">${s.a}</span></div>`).join('')}</div>`;
+    c.appendChild(d);
+  });
+}
+
+// ── CHECKLISTS ────────────────────────────────────────────
+function buildChecklist(containerId, items, prefix) {
+  const c = document.getElementById(containerId);
+  items.forEach((text, i) => {
+    const key = prefix+'-'+i;
+    const done = !!checks[key];
+    const d = document.createElement('div');
+    d.className = 'check-item';
+    d.innerHTML = `<div class="check-box${done?' done':''}" id="cb-${key}"></div><div class="ct${done?' done':''}" id="ct-${key}">${text}</div>`;
+    d.addEventListener('click', () => {
+      checks[key] = !checks[key];
+      localStorage.setItem('lsf26-checks', JSON.stringify(checks));
+      document.getElementById('cb-'+key).className = 'check-box'+(checks[key]?' done':'');
+      document.getElementById('ct-'+key).className = 'ct'+(checks[key]?' done':'');
+    });
+    c.appendChild(d);
+  });
+}
+</script>
+</body>
+</html>
